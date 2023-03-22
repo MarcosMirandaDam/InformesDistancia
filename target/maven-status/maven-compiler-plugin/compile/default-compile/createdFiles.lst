@@ -1,2 +1,6 @@
-org\swing\informesdistancia\App.class
+org\swing\informesdistancia\GeneradorInformes.class
 org\swing\informesdistancia\ConnectionManager.class
+org\swing\informesdistancia\GeneradorInformes$3.class
+org\swing\informesdistancia\GeneradorInformes$1.class
+org\swing\informesdistancia\App.class
+org\swing\informesdistancia\GeneradorInformes$2.class
