@@ -1,4 +1,3 @@
-
 package org.swing.informesdistancia;
 
 import java.sql.Connection;
@@ -20,6 +19,8 @@ public class GeneradorInformes extends javax.swing.JFrame {
     private static final String PATH="src/main/resources/";                 //creamos PATH porque iran todos los reportes ahi
     private static final String INFORME_PELICULAS_CIUDAD="Tarea1.jasper";
     private static final String INFORME_VENTAS_CATEGORIA="VentasPorCategoria.jasper";
+    private static final String INFORME_ACTORES_PELICULA="ActoresPorPelicula.jasper";
+    private static final String INFORME_CIUDADES_PAIS="CiudadesPais.jasper";
     
     public GeneradorInformes() {
         initComponents();
@@ -40,6 +41,10 @@ public class GeneradorInformes extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        ActoresPelicula = new javax.swing.JButton();
+        botonCiudadesPais = new javax.swing.JButton();
+        textFieldPais = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -78,6 +83,28 @@ public class GeneradorInformes extends javax.swing.JFrame {
             }
         });
 
+        ActoresPelicula.setText("Actores por película");
+        ActoresPelicula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActoresPeliculaActionPerformed(evt);
+            }
+        });
+
+        botonCiudadesPais.setText("Ciudades por Pais");
+        botonCiudadesPais.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCiudadesPaisActionPerformed(evt);
+            }
+        });
+
+        textFieldPais.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textFieldPaisActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Inserte Pais:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -91,14 +118,25 @@ public class GeneradorInformes extends javax.swing.JFrame {
                         .addGroup(layout.createSequentialGroup()
                             .addGap(31, 31, 31)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel2)
                                 .addGroup(layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(botonParametro)
                                         .addComponent(botonPeliculasCiudad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(botonVentasCategoria)
-                                    .addGap(19, 19, 19)))))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(botonVentasCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(ActoresPelicula, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGap(19, 19, 19))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addGap(0, 0, Short.MAX_VALUE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(jLabel3)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(textFieldPais, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(botonCiudadesPais)
+                                    .addGap(33, 33, 33)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(132, 132, 132)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -116,8 +154,15 @@ public class GeneradorInformes extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addGap(5, 5, 5)
-                .addComponent(botonParametro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botonParametro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ActoresPelicula))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botonCiudadesPais)
+                    .addComponent(textFieldPais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(17, 17, 17))
         );
@@ -169,6 +214,42 @@ public class GeneradorInformes extends javax.swing.JFrame {
       System.exit(0);         //salir del programa
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void ActoresPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActoresPeliculaActionPerformed
+       String reportName=PATH+INFORME_ACTORES_PELICULA;
+        Map<String,Object> params=new HashMap<>();
+        //params.put("cityParameter",botonParametro.getText());    no hay parametro en este caso
+        Connection conn=ConnectionManager.getMySqlConnection();
+         
+        try {
+           
+            JasperPrint print=JasperFillManager.fillReport(reportName,params,conn);
+            JasperViewer viewer=new JasperViewer(print);
+            viewer.setVisible(true);
+        } catch (JRException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_ActoresPeliculaActionPerformed
+
+    private void textFieldPaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldPaisActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textFieldPaisActionPerformed
+
+    private void botonCiudadesPaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCiudadesPaisActionPerformed
+        String reportName=PATH+INFORME_CIUDADES_PAIS;
+        Map<String,Object> params=new HashMap<>();
+        params.put("Parameter1",textFieldPais.getText());    
+        Connection conn=ConnectionManager.getMySqlConnection();
+         
+        try {
+           
+            JasperPrint print=JasperFillManager.fillReport(reportName,params,conn);
+            JasperViewer viewer=new JasperViewer(print);
+            viewer.setVisible(true);
+        } catch (JRException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_botonCiudadesPaisActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -205,11 +286,15 @@ public class GeneradorInformes extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ActoresPelicula;
+    private javax.swing.JButton botonCiudadesPais;
     private javax.swing.JTextField botonParametro;
     private javax.swing.JButton botonPeliculasCiudad;
     private javax.swing.JButton botonVentasCategoria;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JTextField textFieldPais;
     // End of variables declaration//GEN-END:variables
 }
